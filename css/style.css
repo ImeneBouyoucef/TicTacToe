@@ -1,4 +1,5 @@
 body {
+    position: relative;
     background-color: black;
     margin: 0;
     padding: 0;
@@ -47,9 +48,16 @@ h1 {
 #playButton:active {
     transform: scale(0.95);
 }
-#message {
+#win {
     color: red;
     font-size: 5vw;
     margin-top: 3vh;
     min-height: 2em;
+}
+#turn {
+    position: absolute;
+    right: 5vw;
+    top: 10vh;
+    color: rgb(238, 141, 156);
+    font-size: 2vw;
 }

@@ -30,7 +30,8 @@ function checkWinner(){
 
 const playButton = document.getElementById("playButton");
 const cells = document.querySelectorAll(".cell");
-const message = document.getElementById("message");
+const win = document.getElementById("win");
+const whosturn = document.getElementById("turn");
 
 let turn = "X";
 let gameStarted = false;
@@ -39,16 +40,23 @@ playButton.addEventListener("click", () => {
     if (!gameStarted) { 
         gameStarted = true;
         playButton.innerText = "Quit";
-      } else {
-        gameStarted = false;
-        playButton.innerText = "Play";
-
+        cells.forEach(cell => {
+          cell.textContent = "";
+        });
+        win.innerText = "";
+        whosturn.innerText = `Turn : ${turn}`;
+      } 
+    else {
+      gameStarted = false;
+      playButton.innerText = "Play";
       cells.forEach(cell => {
-        cell.textContent = "";
+      cell.textContent = "";
       });
       turn = "X";
-      }
-  });
+      win.innerText = "";
+      whosturn.innerText = "";
+    }
+});
 
 cells.forEach(cell => {
   cell.addEventListener("click", () => {
@@ -59,8 +67,12 @@ cells.forEach(cell => {
     
     const winner = checkWinner();
     if (winner) {
-      message.innerText = `${winner} won!`;
+      win.innerText = `${winner} won!`;
       gameStarted = false;
       playButton.innerText = "Play";
+      turn = "X";
+    }
+    else {
+      whosturn.innerText = `Turn : ${turn}`;
     }});
 });
