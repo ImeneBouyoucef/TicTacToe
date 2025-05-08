@@ -47,3 +47,9 @@ h1 {
 #playButton:active {
     transform: scale(0.95);
 }
+#message {
+    color: red;
+    font-size: 5vw;
+    margin-top: 3vh;
+    min-height: 2em;
+}
