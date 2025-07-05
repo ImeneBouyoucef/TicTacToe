@@ -1,131 +1,144 @@
 import { AIPlayer } from "./AIPlayer.js";
 
-/**
- * reset the game
- */
-function resetGame() {
-  gameStarted = false;
-  playButton.innerText = "Play";
-  turn = "X";
-  win.innerText = "";
-  whosturn.innerText = "";
-  cells.forEach(cell => {
-    cell.textContent = "";
-  });
-}
+// makes sure the DOM is loaded before attaching the event listeners
+document.addEventListener("DOMContentLoaded", () => {
+  const playButton = document.getElementById("playButton");
+  const modeButton = document.getElementById("modeToggle");
+  const cells = document.querySelectorAll(".cell");
+  const win = document.getElementById("win");
+  const whosturn = document.getElementById("turn");
+  const levelRange = document.getElementById("levelRange");
+  const levelValue = document.getElementById("levelValue");
 
-/**
- * check if there is a winner
- * @returns the winner's symbol
- */
-function checkWinner(){
-  const winCombos = [
-    [0, 1, 2], 
-    [3, 4, 5],
-    [6, 7, 8], 
-    [0, 3, 6], 
-    [1, 4, 7], 
-    [2, 5, 8], 
-    [0, 4, 8], 
-    [2, 4, 6]  
-  ];
+  let turn = "X";
+  let gameStarted = false;
+  let mode = "Player";
+  let ai = new AIPlayer("O", parseInt(levelRange.value));
 
-  for (let combo of winCombos){
-    const [x, y, z] = combo;
-        const valX = cells[x].textContent;
-        const valY = cells[y].textContent;
-        const valZ = cells[z].textContent;
-
-        if (valX && valX === valY && valX === valZ) {
-            return valZ; 
-        }
-  }
-
-  return null;
-}
-
-/**
- * check if there is a draw
- * @returns true if there is a draw
- */
-function checkDraw() {
-  return Array.from(cells).every(cell => cell.textContent !== "");
-}
-
-/**
- * check if the game ended
- * @returns true if the game ended
- */
-function checkEndGame() {
-  const winner = checkWinner();
-  if (winner) {
-    win.innerText = `${winner} won!`;
+  /**
+   * reset the game
+   */
+  function resetGame() {
     gameStarted = false;
     playButton.innerText = "Play";
     turn = "X";
-    return true;
+    win.innerText = "";
+    whosturn.innerText = "";
+    cells.forEach(cell => {
+      cell.textContent = "";
+    });
   }
-  if (checkDraw()) {
-    win.innerText = `Draw !`;
-    gameStarted = false;
-    playButton.innerText = "Play";
-    turn = "X";
-    return true;
+
+  /**
+   * check if there is a winner
+   * @returns the winner's symbol
+   */
+  function checkWinner() {
+    const winCombos = [
+      [0, 1, 2], 
+      [3, 4, 5],
+      [6, 7, 8], 
+      [0, 3, 6], 
+      [1, 4, 7], 
+      [2, 5, 8], 
+      [0, 4, 8], 
+      [2, 4, 6]  
+    ];
+
+    for (let combo of winCombos) {
+      const [x, y, z] = combo;
+      const valX = cells[x].textContent;
+      const valY = cells[y].textContent;
+      const valZ = cells[z].textContent;
+
+      if (valX && valX === valY && valX === valZ) {
+        return valZ; 
+      }
+    }
+
+    return null;
   }
-  return false;
-}
 
-const playButton = document.getElementById("playButton");
-const modeButton = document.getElementById("modeToggle");
-const cells = document.querySelectorAll(".cell");
-const win = document.getElementById("win");
-const whosturn = document.getElementById("turn");
-const ai = new AIPlayer("O");
+  /**
+   * check if there is a draw
+   * @returns true if there is a draw
+   */
+  function checkDraw() {
+    return Array.from(cells).every(cell => cell.textContent !== "");
+  }
 
-let turn = "X";
-let gameStarted = false;
-let mode = "Player";
+  /**
+   * check if the game ended
+   * @returns true if the game ended
+   */
+  function checkEndGame() {
+    const winner = checkWinner();
+    if (winner) {
+      win.innerText = `${winner} won!`;
+      gameStarted = false;
+      playButton.innerText = "Play";
+      turn = "X";
+      return true;
+    }
+    if (checkDraw()) {
+      win.innerText = `Draw !`;
+      gameStarted = false;
+      playButton.innerText = "Play";
+      turn = "X";
+      return true;
+    }
+    return false;
+  }
 
-playButton.addEventListener("click", () => {
+  // bouton play
+  playButton.addEventListener("click", () => {
     if (!gameStarted) { 
-        gameStarted = true;
-        playButton.innerText = "Quit";
-        cells.forEach(cell => {
-          cell.textContent = "";
-        });
-        win.innerText = "";
-        whosturn.innerText = `Turn : ${turn}`;
-    } 
-    else {
+      gameStarted = true;
+      playButton.innerText = "Quit";
+      cells.forEach(cell => {
+        cell.textContent = "";
+      });
+      win.innerText = "";
+      whosturn.innerText = `Turn : ${turn}`;
+    } else {
       resetGame();
     }
-});
+  });
 
-modeButton.addEventListener("click", () => {
-  mode = (mode === "Player") ? "AI" : "Player";
-  modeButton.innerText = `Mode: Player vs ${mode}`;
-})
+  // toggle mode PVP / PVE
+  modeButton.addEventListener("click", () => {
+    mode = (mode === "Player") ? "AI" : "Player";
+    modeButton.innerText = `Mode: Player vs ${mode}`;
+  });
 
-cells.forEach(cell => {
-  cell.addEventListener("click", () => {
-    if (!gameStarted || cell.textContent !== "") return;
+  // changement du niveau de l'IA
+  levelRange.addEventListener("input", () => {
+    levelValue.textContent = levelRange.value;
+    ai = new AIPlayer("O", parseInt(levelRange.value));
+  });
 
-    cell.textContent = turn;
-    turn = turn === "X" ? "O" : "X";
-    
-    if (checkEndGame()) return;
-   
-    whosturn.innerText = `Turn : ${turn}`;
-    
-    if (mode === "AI" && turn === ai.symbol && gameStarted) {
-      setTimeout(() => {
-        ai.play(cells); 
-        turn = "X";
+  // clic sur une cellule
+  cells.forEach(cell => {
+    cell.addEventListener("click", () => {
+      if (!gameStarted || cell.textContent !== "") return;
 
-        if (!checkEndGame()) {
-          whosturn.innerText = `Turn : ${turn}`;
-        }
-      }, 300);
-    }
+      cell.textContent = turn;
+      turn = turn === "X" ? "O" : "X";
+
+      if (checkEndGame()) return;
+
+      whosturn.innerText = `Turn : ${turn}`;
+
+      if (mode === "AI" && turn === ai.symbol && gameStarted) {
+        setTimeout(() => {
+          ai.play(cells); 
+          turn = "X";
+
+          if (!checkEndGame()) {
+            whosturn.innerText = `Turn : ${turn}`;
+          }
+        }, 300);
+      }
+    });
   });
 });

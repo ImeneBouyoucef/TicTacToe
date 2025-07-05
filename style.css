@@ -15,6 +15,7 @@ h1 {
     margin-top: 3vh; 
     margin-bottom: 5vh;
 }
+
 .grid{
     display: grid;
     grid-template-columns: repeat(3, 10vw);
@@ -22,6 +23,7 @@ h1 {
     gap: 0.5vw;
     justify-content: center;
 }
+
 .cell{
     display: flex;
     align-items: center;
@@ -31,6 +33,7 @@ h1 {
     font-size: 6vw;
     color: white;
 }
+
 #playButton{
     margin-top: 5vh;
     font-size: 2vw;
@@ -42,19 +45,23 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
 }
+
 #playButton:hover {
     background-color: rgb(238, 141, 156);
     transform: scale(1.1);
 }
+
 #playButton:active {
     transform: scale(0.95);
 }
+
 #win {
     color: red;
     font-size: 5vw;
     margin-top: 3vh;
     min-height: 2em;
 }
+
 #turn {
     position: absolute;
     right: 5vw;
@@ -62,6 +69,7 @@ h1 {
     color: rgb(238, 141, 156);
     font-size: 2vw;
 }
+
 #modeToggle {
     font-size: 1.5vw;
     padding: 1vh 2vw;
@@ -73,10 +81,32 @@ h1 {
     transition: 0.3s;
     margin-top: 2vh;
 }
+
 #modeToggle:hover {
     background-color: rgb(238, 141, 156);
     transform: scale(1.1);
 }
+
 #modeToggle:active {
     transform: scale(0.95);
+}
+
+.level-selector {
+  position: fixed;
+  top: 2vh;
+  right: 2vw;
+  z-index: 1000;
+  color: white;
+  font-size: 1.2vw;
+  text-align: right;
+  background-color: rgba(0, 0, 0, 0.5); /* temporaire pour visibilité */
+  padding: 1vh;
+  border-radius: 0.5vw;
+  border: 2px solid rgb(52, 142, 172);
+}
+
+
+#levelRange {
+  width: 12vw;
+  margin-top: 0.5vh;
 }
