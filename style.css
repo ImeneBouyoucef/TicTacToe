@@ -99,7 +99,6 @@ h1 {
   color: white;
   font-size: 1.2vw;
   text-align: right;
-  background-color: rgba(0, 0, 0, 0.5); /* temporaire pour visibilité */
   padding: 1vh;
   border-radius: 0.5vw;
   border: 2px solid rgb(52, 142, 172);

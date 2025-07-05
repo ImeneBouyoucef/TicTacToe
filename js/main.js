@@ -111,13 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
     modeButton.innerText = `Mode: Player vs ${mode}`;
   });
 
-  // changement du niveau de l'IA
+  // change in AI level
   levelRange.addEventListener("input", () => {
     levelValue.textContent = levelRange.value;
     ai = new AIPlayer("O", parseInt(levelRange.value));
   });
 
-  // clic sur une cellule
+  // click on a cell
   cells.forEach(cell => {
     cell.addEventListener("click", () => {
       if (!gameStarted || cell.textContent !== "") return;
