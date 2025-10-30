@@ -19,7 +19,7 @@ A simple and responsive Tic Tac Toe (morpion) game built with HTML, CSS, and Jav
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<ton-pseudo>/TicTacToe.git
+git clone https://github.com/ImeneBouyoucef/TicTacToe.git
 cd TicTacToe
 ```
 
