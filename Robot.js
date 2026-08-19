@@ -1,4 +1,4 @@
-export class AIPlayer {
+export class Robot {
     constructor(symbol, level) {
         this.symbol = symbol;
         this.level = level;
@@ -38,7 +38,7 @@ export class AIPlayer {
     }
 
      /**
-     * Check if the AI ​​can win now and play that move if possible.
+     * Check if the Robot ​​can win now and play that move if possible.
      * @param {NodeList} cells 
      * @returns {boolean}
      */
