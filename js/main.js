@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modeButton.innerText = `Mode: Player vs ${mode}`;
   });
 
-  // change in AI level
+  // change in robot level
   levelRange.addEventListener("input", () => {
     levelValue.textContent = levelRange.value;
     ai = new AIPlayer("O", parseInt(levelRange.value));
