@@ -1,7 +1,5 @@
-import { AIPlayer } from "./AIPlayer.js";
+import { Robot } from "./Robot.js";
 
-// makes sure the DOM is loaded before attaching the event listeners
-document.addEventListener("DOMContentLoaded", () => {
   const playButton = document.getElementById("playButton");
   const modeButton = document.getElementById("modeToggle");
   const cells = document.querySelectorAll(".cell");
@@ -13,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let turn = "X";
   let gameStarted = false;
   let mode = "Player";
-  let ai = new AIPlayer("O", parseInt(levelRange.value));
+  let robot = new Robot("O", parseInt(levelRange.value));
 
   /**
    * reset the game
@@ -78,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameStarted = false;
       playButton.innerText = "Play";
       turn = "X";
+      whosturn.innerText = "";
       return true;
     }
     if (checkDraw()) {
@@ -85,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameStarted = false;
       playButton.innerText = "Play";
       turn = "X";
+      whosturn.innerText = "";
       return true;
     }
     return false;
@@ -107,20 +107,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // toggle mode PVP / PVE
   modeButton.addEventListener("click", () => {
-    mode = (mode === "Player") ? "AI" : "Player";
+    mode = (mode === "Player") ? "Robot" : "Player";
     modeButton.innerText = `Mode: Player vs ${mode}`;
   });
 
   // change in robot level
   levelRange.addEventListener("input", () => {
     levelValue.textContent = levelRange.value;
-    ai = new AIPlayer("O", parseInt(levelRange.value));
+    robot = new Robot("O", parseInt(levelRange.value));
   });
 
   // click on a cell
   cells.forEach(cell => {
     cell.addEventListener("click", () => {
       if (!gameStarted || cell.textContent !== "") return;
+      if (mode === "Robot" && turn !== "X") return; // block click if it is the Robot's turn
 
       cell.textContent = turn;
       turn = turn === "X" ? "O" : "X";
@@ -129,9 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       whosturn.innerText = `Turn : ${turn}`;
 
-      if (mode === "AI" && turn === ai.symbol && gameStarted) {
+      if (mode === "Robot" && turn === robot.symbol && gameStarted) {
         setTimeout(() => {
-          ai.play(cells); 
+          robot.play(cells); 
           turn = "X";
 
           if (!checkEndGame()) {
@@ -141,4 +142,3 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
